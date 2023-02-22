@@ -73,7 +73,7 @@ u=1
 vesomost=1 
 mozno=0
 polet=False
-polozenie=0
+polozenie=1
 fps_count=0
 mozet=0
 while 1:
@@ -89,8 +89,7 @@ while 1:
                     mozet=False
                 else:
                     moment=True
-            if event.key==pygame.K_DOWN and mozet==1 and moment==False:
-                rect
+            
             if event.key==pygame.K_w and fps_count>15:
                 pula=Pula(10,10,rect.center[0],rect.center[1],polozenie)
                 all_pula.add(pula)
@@ -104,6 +103,7 @@ while 1:
         
         
     if keys[pygame.K_RIGHT]:
+        
         if rect.center[0]==W//2:
             all_sprites.update()
         else:
@@ -120,7 +120,7 @@ while 1:
         polozenie = 5
     if keys[pygame.K_DOWN]:
         polozenie = 7
-    if keys[pygame.K_RIGHT] and [pygame.K_UP]:
+    if keys[pygame.K_RIGHT] and keys[pygame.K_UP]:
         polozenie = 2
     if keys[pygame.K_LEFT] and keys[pygame.K_UP]:
         polozenie = 4
