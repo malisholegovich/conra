@@ -46,14 +46,9 @@ block4=Block(100,10,750,610)
 block5=Block(100,10,1500,760)
 all_sprites = pygame.sprite.Group()
 all_pula = pygame.sprite.Group()
-all_pulas=[]
-all_sprite=[]
+
 all_sprites.add(block1,block2,block3,block4,block5)
-all_sprite.append(block1)
-all_sprite.append(block2)
-all_sprite.append(block3)
-all_sprite.append(block4) 
-all_sprite.append(block5) 
+
 
 
 
@@ -99,7 +94,7 @@ while 1:
             if event.key==pygame.K_w and fps_count>15:
                 pula=Pula(10,10,rect.center[0],rect.center[1],polozenie)
                 all_pula.add(pula)
-                all_pulas.append(pula)
+                
                 polet=True
                 fps_count=0
             
@@ -119,7 +114,7 @@ while 1:
         polozenie=1
         rect.x-=10
     if polet==True :
-        for i in all_pulas:
+        for i in all_pula:
             if i.polozenie==0:
                 i.rect.x+=20
             if i.polozenie==1:
@@ -148,7 +143,7 @@ while 1:
             
             rect.y+=10
             
-            for i in all_sprite:
+            for i in all_sprites:
                 if i.rect.top==rect.bottom :
                     rect.y+=1
                     jump_now=0
@@ -156,7 +151,7 @@ while 1:
                     u=1
                     
         
-    for i in all_sprite:
+    for i in all_sprites:
         if pygame.Rect.colliderect(rect,i.rect) and i.rect.top==rect.bottom-1:
             vesomost=1
             
