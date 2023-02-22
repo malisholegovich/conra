@@ -189,7 +189,7 @@ while 1:
                
         
         
-    
+    print("hfiergfgryfgu")
                
                 
                 
@@ -206,5 +206,3 @@ while 1:
  
     clock.tick(FPS)
 
-    #comment
-    #commnet2
