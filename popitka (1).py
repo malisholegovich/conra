@@ -104,21 +104,54 @@ while 1:
         
         
     if keys[pygame.K_RIGHT]:
-        polozenie=0
         if rect.center[0]==W//2:
             all_sprites.update()
         else:
             rect.x+=10
-    
+          
     if keys[pygame.K_LEFT]:
-        polozenie=1
         rect.x-=10
+      
+    if keys[pygame.K_RIGHT]:
+        polozenie = 1
+    if keys[pygame.K_UP]:
+        polozenie = 3
+    if keys[pygame.K_LEFT]:
+        polozenie = 5
+    if keys[pygame.K_DOWN]:
+        polozenie = 7
+    if keys[pygame.K_RIGHT] and [pygame.K_UP]:
+        polozenie = 2
+    if keys[pygame.K_LEFT] and keys[pygame.K_UP]:
+        polozenie = 4
+    if keys[pygame.K_LEFT] and keys[pygame.K_DOWN]:
+        polozenie = 6
+    if keys[pygame.K_RIGHT] and keys[pygame.K_DOWN]:
+        polozenie = 8
+       
+       
     if polet==True :
         for i in all_pula:
-            if i.polozenie==0:
-                i.rect.x+=20
             if i.polozenie==1:
+                i.rect.x+=20
+            elif i.polozenie==2:
+                i.rect.x+=20
+                i.rect.y-=20
+            elif i.polozenie==3:
+                i.rect.y-=20
+            elif i.polozenie==4:
                 i.rect.x-=20
+                i.rect.y-=20
+            elif i.polozenie==5:
+                i.rect.x-=20
+            elif i.polozenie==6:
+                i.rect.x-=20
+                i.rect.y+=20
+            elif i.polozenie==7:
+                i.rect.y+=20
+            elif i.polozenie==8:
+                i.rect.x+=20
+                i.rect.y+=20
      
         
         
