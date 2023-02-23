@@ -41,7 +41,7 @@ class Pula(pygame.sprite.Sprite):
         self.rect.y=Y
         self.polozenie=k
 class NPC(pygame.sprite.Sprite):
-    def __init__(self,W,H,X,Y,stolk,moment,speed,jump_now):
+    def __init__(self,W,H,X,Y,stolk,moment,speed,jump_now,jump_force):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((W, H))
         self.image.fill(BLACK)
@@ -52,6 +52,7 @@ class NPC(pygame.sprite.Sprite):
         self.moment=moment  
         self.speed=speed 
         self.jump_now=jump_now
+        self.jump_force=jump_force
         
         
 block1=Block(100,10,1500//2,760)
@@ -63,8 +64,8 @@ block6=Block(400,10,1000,760)
 all_sprites = pygame.sprite.Group()
 all_pula = pygame.sprite.Group()
 all_npc=pygame.sprite.Group()
-npc=NPC(40,50,1200,711,1,False,10,0)
-npc1=NPC(40,50,1300,711,1,False,10,0)
+npc=NPC(40,50,1200,711,1,False,10,0,0)
+npc1=NPC(40,50,1300,711,1,False,10,0,0)
 all_npc.add(npc,npc1)
 all_sprites.add(block1,block2,block3,block4,block5,block6)
 
@@ -217,6 +218,7 @@ while 1:
             if pygame.Rect.colliderect(i.rect,ii.rect) and ii.rect.top==i.rect.bottom-1:
                 i.moment=False
                 i.jump_now=0
+                
             
                 
                 
@@ -225,6 +227,7 @@ while 1:
                 
                 if u1==0 and i.stolk==1:
                     i.moment=True
+                    i.jump_force=random.randint(5,15)
                 else:
                     i.stolk=1
                 if u1==1:
@@ -240,7 +243,7 @@ while 1:
             i.rect.x-=i.speed
     for i in all_npc:        
         if i.moment==True:
-            if i.jump_now<=5:
+            if i.jump_now<=i.jump_force:
                 
                 i.rect.y-=10
                 i.jump_now+=1
