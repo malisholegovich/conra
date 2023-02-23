@@ -41,7 +41,7 @@ class Pula(pygame.sprite.Sprite):
         self.rect.y=Y
         self.polozenie=k
 class NPC(pygame.sprite.Sprite):
-    def __init__(self,W,H,X,Y,stolk,moment,speed,):
+    def __init__(self,W,H,X,Y,stolk,moment,speed,jump_now):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((W, H))
         self.image.fill(BLACK)
@@ -51,6 +51,7 @@ class NPC(pygame.sprite.Sprite):
         self.stolk=stolk
         self.moment=moment  
         self.speed=speed 
+        self.jump_now=jump_now
         
         
 block1=Block(100,10,1500//2,760)
@@ -62,8 +63,9 @@ block6=Block(400,10,1000,760)
 all_sprites = pygame.sprite.Group()
 all_pula = pygame.sprite.Group()
 all_npc=pygame.sprite.Group()
-npc=NPC(40,50,1200,711,1,False,10)
-all_npc.add(npc)
+npc=NPC(40,50,1200,711,1,False,10,0)
+npc1=NPC(40,50,1200,711,1,False,10,0)
+all_npc.add(npc,npc1)
 all_sprites.add(block1,block2,block3,block4,block5,block6)
 
 
@@ -84,8 +86,8 @@ moment=False                    #часть для прыжка
 jump_count=20
 jump_now=0
 
-jump_now_npc=0
-jump_count_npc=20 
+
+
 speed_npc=10
 
 
@@ -214,7 +216,7 @@ while 1:
         for ii in all_sprites:
             if pygame.Rect.colliderect(i.rect,ii.rect) and ii.rect.top==i.rect.bottom-1:
                 i.moment=False
-                
+                i.jump_now=0
             
                 
                 
@@ -238,10 +240,10 @@ while 1:
             i.rect.x-=i.speed
     for i in all_npc:        
         if i.moment==True:
-            if jump_now_npc<=jump_count_npc-15:
+            if i.jump_now<=5:
                 
                 i.rect.y-=10
-                jump_now_npc+=1
+                i.jump_now+=1
             else:
                 i.rect.y+=10
             
