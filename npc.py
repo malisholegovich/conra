@@ -16,7 +16,7 @@ GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 BLACK=(0,0,0)
  
-FPS =15      # число кадров в секунду
+FPS =30      # число кадров в секунду
 clock = pygame.time.Clock()
 
 
@@ -245,7 +245,10 @@ while 1:
             else:
                 i.rect.y+=10
             
-                
+    for i in all_npc:
+        for ii in all_pula:
+            if pygame.Rect.colliderect(i.rect,ii.rect):
+                i.kill()            
                 
                 
             
