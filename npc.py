@@ -64,7 +64,7 @@ all_sprites = pygame.sprite.Group()
 all_pula = pygame.sprite.Group()
 all_npc=pygame.sprite.Group()
 npc=NPC(40,50,1200,711,1,False,10,0)
-npc1=NPC(40,50,1200,711,1,False,10,0)
+npc1=NPC(40,50,1300,711,1,False,10,0)
 all_npc.add(npc,npc1)
 all_sprites.add(block1,block2,block3,block4,block5,block6)
 
