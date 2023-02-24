@@ -66,7 +66,8 @@ all_pula = pygame.sprite.Group()
 all_npc=pygame.sprite.Group()
 npc=NPC(40,50,1200,711,1,False,10,0,0)
 npc1=NPC(40,50,1300,711,1,False,10,0,0)
-all_npc.add(npc,npc1)
+npc2=NPC(40,50,1100,711,1,False,10,0,0)
+all_npc.add(npc,npc1,npc2)
 all_sprites.add(block1,block2,block3,block4,block5,block6)
 
 
@@ -112,6 +113,7 @@ polet=False
 polozenie=0
 fps_count=0
 mozet=0
+smert=1
 while 1:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -249,11 +251,13 @@ while 1:
                 i.jump_now+=1
             else:
                 i.rect.y+=10
-            
+        if pygame.Rect.colliderect(i.rect,rect):
+            smert=0    
     for i in all_npc:
         for ii in all_pula:
             if pygame.Rect.colliderect(i.rect,ii.rect):
-                i.kill()            
+                i.kill()
+                ii.kill()            
                 
                 
             
@@ -287,7 +291,8 @@ while 1:
     all_sprites.draw(sc)
     all_pula.draw(sc)
     all_npc.draw(sc)
-    sc.blit(hero, rect)
+    if smert==1:
+        sc.blit(hero, rect)
     pygame.display.update()
     fps_count+=1
     
