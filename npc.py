@@ -101,15 +101,14 @@ all_turel.add(turel)
 
 
  
-hero = pygame.Surface((40, 50))                        #в этой части я создаю героя и присваиваю ему нижние координаты, как координаты земли
-hero.fill(BLUE)
+hero = pygame.Surface((40, 50))
 rect = hero.get_rect(centerx=W//2)
 
 rect.bottom = H-69
 
 
 
-moment=False                    #часть для прыжка
+moment=False
 jump_count=20
 jump_now=0
 
