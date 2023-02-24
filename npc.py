@@ -252,14 +252,19 @@ while 1:
             else:
                 i.rect.y+=10
         if pygame.Rect.colliderect(i.rect,rect):
-            smert=0    
+            smert=0
+        if i.rect.x<-40:
+            i.kill()    
     for i in all_npc:
         for ii in all_pula:
             if pygame.Rect.colliderect(i.rect,ii.rect):
                 i.kill()
                 ii.kill()            
                 
-                
+    for i in all_pula:
+        if i.rect.x<-10 or i.rect.x>1510:
+            i.kill()
+                    
             
             
                 
