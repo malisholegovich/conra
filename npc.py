@@ -53,7 +53,27 @@ class NPC(pygame.sprite.Sprite):
         self.speed=speed 
         self.jump_now=jump_now
         self.jump_force=jump_force
+class Turel(pygame.sprite.Sprite):
+    def __init__(self,W,H,X,Y):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface((W, H))
+        self.image.fill(RED)
+        self.rect = self.image.get_rect()
+        self.rect.x=X
+        self.rect.y=Y
         
+    def update(self):
+        self.rect.x-=10
+class PulaT(pygame.sprite.Sprite):
+    def __init__(self,W,H,X,Y,k):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface((W, H))
+        self.image.fill(BLACK)
+        self.rect = self.image.get_rect()
+        self.rect.x=X
+        self.rect.y=Y
+        self.polozenie=k
+                
         
 block1=Block(100,10,1500//2,760)
 block2=Block(100,10,750,710)
@@ -64,11 +84,16 @@ block6=Block(400,10,1000,760)
 all_sprites = pygame.sprite.Group()
 all_pula = pygame.sprite.Group()
 all_npc=pygame.sprite.Group()
+all_pulat=pygame.sprite.Group()
+all_turel=pygame.sprite.Group()
 npc=NPC(40,50,1200,711,1,False,10,0,0)
 npc1=NPC(40,50,1300,711,1,False,10,0,0)
 npc2=NPC(40,50,1100,711,1,False,10,0,0)
+turel=Turel(100,100,750,510)
 all_npc.add(npc,npc1,npc2)
 all_sprites.add(block1,block2,block3,block4,block5,block6)
+all_turel.add(turel)
+
 
 
 
@@ -112,6 +137,7 @@ mozno=0
 polet=False
 polozenie=0
 fps_count=0
+fps_count_for_turel=0
 mozet=0
 smert=1
 while 1:
@@ -139,9 +165,23 @@ while 1:
         
     keys=pygame.key.get_pressed()
     
-    for i in all_npc:
-        i.speed=10    
+    
+    if fps_count_for_turel>=30:
+        for i in all_turel:
+            if rect.x<i.rect.bottomleft[0] and rect.y>i.rect.bottomleft[1]:
+                pula=PulaT(10,10,i.rect.center[0],i.rect.center[1],0)
+                all_pulat.add(pula)
+        fps_count_for_turel=0
         
+    for i in all_pulat:
+        if i.polozenie==0:
+            i.rect.x-=20
+            i.rect.y+=20        
+            
+    
+    
+    for i in all_npc:
+        i.speed=10        
     if keys[pygame.K_RIGHT]:
         polozenie=0
         if rect.center[0]==W//2:
@@ -152,7 +192,7 @@ while 1:
                     
                     i.speed=0
             all_sprites.update()
-            
+            all_turel.update()
         else:
             rect.x+=10
             
@@ -164,6 +204,10 @@ while 1:
         
         for i in all_npc:
             i.speed=10
+            
+            
+            
+            
     if polet==True :
         for i in all_pula:
             if i.polozenie==0:
@@ -264,6 +308,8 @@ while 1:
     for i in all_pula:
         if i.rect.x<-10 or i.rect.x>1510:
             i.kill()
+    
+    
                     
             
             
@@ -296,10 +342,12 @@ while 1:
     all_sprites.draw(sc)
     all_pula.draw(sc)
     all_npc.draw(sc)
+    all_turel.draw(sc)
+    all_pulat.draw(sc)
     if smert==1:
         sc.blit(hero, rect)
     pygame.display.update()
     fps_count+=1
-    
+    fps_count_for_turel+=1
  
     clock.tick(FPS)
