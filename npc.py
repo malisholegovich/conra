@@ -9,7 +9,7 @@ sc = pygame.display.set_mode((W, H))
 pygame.display.set_caption("contra")
 
 
- 
+
 WHITE = (255, 255, 255)
 BLUE = (0, 0, 255)
 GREEN = (0, 255, 0)
@@ -75,8 +75,8 @@ class PulaT(pygame.sprite.Sprite):
         self.polozenie=k
                 
         
-block1=Block(100,10,1500//2,760)
-block2=Block(100,10,750,710)
+block1=Block(300,10,550,760)
+block2=Block(300,10,550,710)
 block3=Block(150000,10,0,830)
 block4=Block(100,10,750,610)
 block5=Block(100,10,1500,760)
@@ -156,10 +156,15 @@ while 1:
                 rect
             if event.key==pygame.K_w and fps_count>15:
                 pula=Pula(10,10,rect.center[0],rect.center[1],polozenie)
-                all_pula.add(pula)
-                
+                all_pula.add(pula)    
                 polet=True
                 fps_count=0
+            if event.key==pygame.K_r:
+                all_npc=pygame.sprite.Group()
+                npc=NPC(40,50,1200,711,1,False,10,0,0)
+                npc1=NPC(40,50,1300,711,1,False,10,0,0)
+                npc2=NPC(40,50,1100,711,1,False,10,0,0)
+                all_npc.add(npc,npc1,npc2)
             
         
     keys=pygame.key.get_pressed()
@@ -232,7 +237,7 @@ while 1:
                 rect.y-=10
             jump_now+=1
         elif jump_now<=jump_count:
-            
+        
             
             
             rect.y+=10
@@ -348,5 +353,5 @@ while 1:
     pygame.display.update()
     fps_count+=1
     fps_count_for_turel+=1
- 
+    
     clock.tick(FPS)
