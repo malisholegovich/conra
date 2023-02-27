@@ -36,9 +36,25 @@ class Turret(pygame.sprite.Sprite):
         yy1 = l
         a1 = abs(xx1-xx)
         b1 = abs(yy1-yy)
-        z = (a1**2+b1**2)**0.5
-        a = 10*a1/z
-        b = 10*b1/z
+        if b1 == 0 and a1 == 0:
+            a = 0
+            b = 0
+        elif a1 == 0:
+            a = 0
+            if yy>yy1:
+                b = -10
+            else:
+                b = 10
+        elif b1 == 0:
+            b = 0
+            if xx1 > xx:
+                a = 10
+            else:
+                a = -10
+        else:
+            z = (a1**2+b1**2)**0.5
+            a = 10*a1/z
+            b = 10*b1/z
         if shot_count >=90:
             newbullet = TurretBullet(xx,yy,a,b)
             all_bullet.add(newbullet)
