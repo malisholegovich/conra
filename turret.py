@@ -29,7 +29,7 @@ class Turret(pygame.sprite.Sprite):
         self.rect.y=Y
     def update(self):
         self.rect.x-=10
-    def shot(self,u,l):
+    def shot(self,u,l,shot_count):
         xx = self.rect.x
         yy = self.rect.y
         xx1 = u
@@ -170,8 +170,10 @@ while 1:
         polozenie = 6
     if keys[pygame.K_RIGHT] and keys[pygame.K_DOWN]:
         polozenie = 8
-    for i in all_bullet:
+    for i in all_Turret:
         i.shot(rect.x,rect.y)
+    if bullet_count >= 90:
+        shot_count = 0
     if polet==True :
         for i in all_pula:
             if i.polozenie==1:
