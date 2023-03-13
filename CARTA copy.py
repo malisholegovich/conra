@@ -257,7 +257,10 @@ while 1:
         for i in all_npc:
             i.speed=10
             
-            
+    if keys[pygame.K_TAB]:
+        FPS=60 
+    else:
+        FPS=30       
             
             
     if polet==True :
