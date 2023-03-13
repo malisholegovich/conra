@@ -29,8 +29,8 @@ class Block(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x=X
         self.rect.y=Y
-    def update(self):
-        self.rect.x-=10
+    def update(self,speed):
+        self.rect.x-=speed
 class Pula(pygame.sprite.Sprite):
     def __init__(self,W,H,X,Y,k):
         pygame.sprite.Sprite.__init__(self)
@@ -62,8 +62,8 @@ class Turel(pygame.sprite.Sprite):
         self.rect.x=X
         self.rect.y=Y
         
-    def update(self):
-        self.rect.x-=10
+    def update(self,speed):
+        self.rect.x-=speed
 class PulaT(pygame.sprite.Sprite):
     def __init__(self,W,H,X,Y,k):
         pygame.sprite.Sprite.__init__(self)
@@ -82,7 +82,7 @@ block2=Block(4400,10,200,650,GREEN)
 
 block3=Block(600,10, 800, 740,GREEN)
 
-block4=Block(200,10,1400,780,GREEN )
+block4=Block(200,10,1400,780,GREEN)
 
 block5=Block(400,10,1600,830,GREEN)
 
@@ -131,14 +131,15 @@ all_pula = pygame.sprite.Group()
 all_npc=pygame.sprite.Group()
 all_pulat=pygame.sprite.Group()
 all_turel=pygame.sprite.Group()
+all_voda=pygame.sprite.Group()
 npc=NPC(40,50,1200,711,1,False,10,0,0)
 npc1=NPC(40,50,1300,711,1,False,10,0,0)
 npc2=NPC(40,50,1100,711,1,False,10,0,0)
 turel=Turel(100,100,750,510)
 all_npc.add(npc,npc1,npc2)
-all_sprites.add(block1,block2,block3,block4,block5,block6,block7,block8,block9,block10,block11,block12,block13,block14,block15,block16,block17,block18,block19,block20)
+all_sprites.add(block2,block3,block4,block5,block6,block7,block8,block9,block10,block11,block12,block13,block14,block15,block16,block17,block18,block19,block20)
 all_turel.add(turel)
-
+all_voda.add(block1)
 
 
 
@@ -185,6 +186,8 @@ fps_count=0
 fps_count_for_turel=0
 mozet=0
 smert=1
+voda=0
+speed=10
 while 1:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -192,7 +195,7 @@ while 1:
         if event.type==pygame.KEYDOWN:
             if event.key==pygame.K_DOWN:
                 mozet=True
-            if event.key==pygame.K_SPACE and mozno==0:
+            if event.key==pygame.K_SPACE and mozno==0 and voda==0:
                 if mozet==True:
                     rect.y+=10
                     mozet=False
@@ -235,32 +238,35 @@ while 1:
     if keys[pygame.K_RIGHT]:
         hero = pygame.image.load('hero1.png')
         polozenie=0
-        if rect.center[0]==W//2:
+        if rect.center[0]>=W//2:
             for i in all_npc:
                 if i.stolk==1:
                     i.speed=20
                 else:
                     
                     i.speed=0
-            all_sprites.update()
-            all_turel.update()
+            all_sprites.update(speed)
+            all_turel.update(speed)
         else:
-            rect.x+=10
+            rect.x+=speed
             
             
     
     if keys[pygame.K_LEFT]:
         polozenie=1
-        rect.x-=10
+        rect.x-=speed
         hero = pygame.image.load('hero2.png')
         
         for i in all_npc:
             i.speed=10
             
     if keys[pygame.K_TAB]:
-        FPS=60 
+        FPS=900
+        
+        speed=500
     else:
-        FPS=30       
+        FPS=30
+        speed=10       
             
             
     if polet==True :
@@ -300,18 +306,37 @@ while 1:
                     moment=False
                     u=1
                               
-        
+    
     for i in all_sprites:
         if pygame.Rect.colliderect(rect,i.rect) and i.rect.top==rect.bottom-1:
             vesomost=1
+            voda=0
+        
+    if pygame.Rect.colliderect(rect,block1.rect) and block1.rect.top==rect.bottom-1 and vesomost==0:
+            voda=1
+            vesomost=1        
+        
             
-    if vesomost==0 and moment==False:
+        
+                 
+    if vesomost==0 and moment==False and voda==0:
         rect.y+=10
         mozno=1
 
     else:
         vesomost=0
         mozno=0
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 
     for i in all_npc:
@@ -365,15 +390,17 @@ while 1:
             i.kill()
 
     sc.fill(WHITE)
+    all_voda.draw(sc)
     all_sprites.draw(sc)
     all_pula.draw(sc)
     all_npc.draw(sc)
     all_turel.draw(sc)
     all_pulat.draw(sc)
+    
     if smert==1:
         sc.blit(hero, rect)
     pygame.display.update()
     fps_count+=1
     fps_count_for_turel+=1
-    
+   
     clock.tick(FPS)
