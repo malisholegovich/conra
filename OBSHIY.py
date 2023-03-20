@@ -87,6 +87,8 @@ class Block(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x=X
         self.rect.y=Y
+        self.W=W
+        self.H=H
     def update(self):
         self.rect.x-=10
 class Pula(pygame.sprite.Sprite):
@@ -175,6 +177,7 @@ block26=Block(400,10,15200,630,GREEN)
 
 block27=Block(600,10,15400,740,GREEN)
 
+most=Block(800,10,4600,600,GREEN)
 # block28=Block( ,10, , ,GREEN )
 
 
@@ -194,6 +197,7 @@ all_pula = pygame.sprite.Group()
 all_turret = pygame.sprite.Group()
 all_bullet = pygame.sprite.Group()
 all_sprites.add(block1,block2,block3,block4,block5,block6,block7,block8,block9,block10,block11,block12,block13,block14,block15,block16,block17,block18,block19,block20,block21,block22,block23,block24,block25,block26,block27)
+all_sprites.add(most)
 all_turret.add(turret1)
 
 
@@ -225,6 +229,9 @@ polozenie=1
 fps_count=0
 shot_count = 0
 mozet=0
+uniz=0
+fps_count_for_most=0
+iii=False
 while 1:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -389,7 +396,21 @@ while 1:
         vesomost=0
         mozno=0
 
-            
+    if most.rect.x<=rect.x and most.W!=0 and uniz==0:
+        uniz=1
+        most.image = pygame.Surface((most.W-200, most.H))
+        most.rect.x+=200
+        most.image.fill(GREEN)
+        most.W-=200
+        iii=True
+    if fps_count_for_most%25==0 and uniz==1 and most.W!=0 and fps_count_for_most>0:
+        most.image = pygame.Surface((most.W-200, most.H))
+        most.rect.x+=200
+        most.image.fill(GREEN)
+        most.W-=200
+    if most.W==0:
+        iii=False
+        fps_count_for_most=0        
         
                
         
@@ -412,6 +433,7 @@ while 1:
     fps_count+=1
     print(fps_count)
     print(shot_count)
- 
+    if iii:
+        fps_count_for_most+=1
     clock.tick(FPS)
 
