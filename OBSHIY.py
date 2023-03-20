@@ -214,6 +214,7 @@ rect.x=block2.rect.topleft[0]
 
 
 
+
 moment=False                    #часть для прыжка
 jump_count=20
 jump_now=0
