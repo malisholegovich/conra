@@ -178,7 +178,34 @@ block26=Block(400,10,15200,630,GREEN)
 block27=Block(600,10,15400,740,GREEN)
 
 most=Block(800,10,4600,600,GREEN)
-# block28=Block( ,10, , ,GREEN )
+
+block28=Block( 400,10, 16000,650 ,GREEN )
+
+block29=Block( 200,10, 16200,830,BLACK)
+
+block30=Block( 200, 10,16400 ,750,GREEN)
+
+block31=Block(400,10,16200,600,GREEN)
+
+block32=Block(400,10,16800,700,GREEN)
+
+block33=Block( 1000,10,17000,750,GREEN)
+
+block34=Block( 600,10,17600,830,GREEN)
+
+block35=Block(400,10,18300,740,GREEN)
+
+block36=Block(400 ,10,18800,650, GREEN)
+
+block37=Block(800,10,19200,600,GREEN)
+
+block38=Block(600,10,19400,690,GREEN)
+
+block39=Block(1500,10,19200,780,GREEN)
+
+block40=Block(200,10,20000,670,GREEN)
+
+block41=Block(200,10,20200,720,GREEN)
 
 
 
@@ -199,7 +226,7 @@ all_bullet = pygame.sprite.Group()
 all_sprites.add(block1,block2,block3,block4,block5,block6,block7,block8,block9,block10,block11,block12,block13,block14,block15,block16,block17,block18,block19,block20,block21,block22,block23,block24,block25,block26,block27)
 all_sprites.add(most)
 all_turret.add(turret1)
-
+all_sprites.add(block28,block29,block30,block31,block32,block33,block34,block35,block36,block37,block38,block39,block40,block41)
 
 
 hero = pygame.image.load('hero1.png')
