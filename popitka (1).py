@@ -222,6 +222,7 @@ while 1:
             i.rect.y-=(i.jump**2)/2
         i.jump-=1
         
+        
 
         
     
