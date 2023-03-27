@@ -199,7 +199,7 @@ while 1:
     for i in all_sprites:
         if pygame.Rect.colliderect(rect,i.rect) and i.rect.top==rect.bottom-1:
             vesomost=1
-            
+         
     if vesomost==0 and moment==False:
         rect.y+=10
         mozno=1
