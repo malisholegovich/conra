@@ -1,5 +1,5 @@
 import pygame
- 
+import random 
 pygame.init()
  
 W = 1500
@@ -38,7 +38,18 @@ class Pula(pygame.sprite.Sprite):
         self.rect.x=X
         self.rect.y=Y
         self.polozenie=k
+class PulaK(pygame.sprite.Sprite):
+    def __init__(self,W,H,X,Y,speed,jump):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface((W, H))
+        self.image.fill(RED)
+        self.rect = self.image.get_rect()
+        self.rect.x=X
+        self.rect.y=Y
+        self.speed=speed
+        self.jump=jump   
     
+       
 block1=Block(100,10,1500//2,760)
 block2=Block(100,10,750,710)
 block3=Block(150000,10,0,830)
@@ -46,7 +57,7 @@ block4=Block(100,10,750,610)
 block5=Block(100,10,1500,760)
 all_sprites = pygame.sprite.Group()
 all_pula = pygame.sprite.Group()
-
+all_k=pygame.sprite.Group()
 all_sprites.add(block1,block2,block3,block4,block5)
 
 
@@ -76,6 +87,7 @@ polet=False
 polozenie=1
 fps_count=0
 mozet=0
+fps_count_for_t=0
 while 1:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -198,9 +210,17 @@ while 1:
         if moment==False:
             hero.fill(BLUE)
             
-        
-               
-        
+    if fps_count_for_t==60:
+        pula=PulaK(10,10,W//2,H//2,random.randint(10,30),random.randint(2,5))
+        all_k.add(pula)
+        fps_count_for_t=0    
+    for i in all_k:          
+        i.rect.x-=i.speed
+        if i.jump<0:
+            i.rect.y+=(i.jump**2)/2
+        else:
+            i.rect.y-=(i.jump**2)/2
+        i.jump-=1
         
     
                
@@ -211,10 +231,11 @@ while 1:
     
     sc.fill(WHITE)
     all_sprites.draw(sc)
+    all_k.draw(sc)
     all_pula.draw(sc)
     sc.blit(hero, rect)
     pygame.display.update()
     fps_count+=1
     print(fps_count)
- 
+    fps_count_for_t+=1
     clock.tick(FPS)

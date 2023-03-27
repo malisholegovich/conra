@@ -117,7 +117,7 @@ class NPC(pygame.sprite.Sprite):
         self.jump_force=jump_force
     
 
-block1=Block(150000,10,0,830,BLUE)
+block1=Block(150000,10,0,830,BLUE) #11600
 
 block2=Block(4400,10,200,650,GREEN)
 
@@ -177,7 +177,7 @@ block26=Block(400,10,15200,630,GREEN)
 
 block27=Block(600,10,15400,740,GREEN)
 
-most=Block(800,10,4600,600,GREEN)
+most=Block(800,10,4600,650,RED)
 
 block28=Block( 400,10, 16000,650 ,GREEN )
 
@@ -203,10 +203,11 @@ block38=Block(600,10,19400,690,GREEN)
 
 block39=Block(1500,10,19200,780,GREEN)
 
-block40=Block(200,10,20000,670,GREEN)
+block40=Block(200,10,20000,650,GREEN)
 
 block41=Block(200,10,20200,720,GREEN)
 
+most1=Block(1000,10,6400,650,RED)
 
 
 
@@ -224,7 +225,7 @@ all_pula = pygame.sprite.Group()
 all_turret = pygame.sprite.Group()
 all_bullet = pygame.sprite.Group()
 all_sprites.add(block1,block2,block3,block4,block5,block6,block7,block8,block9,block10,block11,block12,block13,block14,block15,block16,block17,block18,block19,block20,block21,block22,block23,block24,block25,block26,block27)
-all_sprites.add(most)
+all_sprites.add(most,most1)
 all_turret.add(turret1)
 all_sprites.add(block28,block29,block30,block31,block32,block33,block34,block35,block36,block37,block38,block39,block40,block41)
 
@@ -234,7 +235,7 @@ rect = hero.get_rect(centerx=W//2)
 
 rect.bottom = block2.rect.top+1
 rect.x=block2.rect.topleft[0]
-
+rect1=rect[0]
  
 
 
@@ -260,6 +261,8 @@ mozet=0
 uniz=0
 fps_count_for_most=0
 iii=False
+mosta=0
+konez=False
 while 1:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -291,6 +294,7 @@ while 1:
     for i in all_npc:
         i.speed=10        
         if keys[pygame.K_RIGHT]:
+           
             hero = pygame.image.load('hero1.png')
             polozenie=0
             if rect.center[0]>=W//2:
@@ -300,7 +304,8 @@ while 1:
                     else:
                         
                         i.speed=0
-                all_sprites.update(speed)
+                if konez==False:
+                    all_sprites.update(speed)
 
             else:
                 rect.x+=speed
@@ -316,7 +321,7 @@ while 1:
     if keys[pygame.K_RIGHT]:
         hero = pygame.image.load('hero1.png')
         
-        if rect.center[0]==W//2:
+        if rect.center[0]==W//2 and konez==False:
             all_sprites.update()
             all_turret.update()
             all_bullet.update()
@@ -424,23 +429,53 @@ while 1:
         vesomost=0
         mozno=0
 
-    if most.rect.x<=rect.x and most.W!=0 and uniz==0:
+    if most.rect.x<=rect.x-90 and most.W!=0 and uniz==0:
         uniz=1
         most.image = pygame.Surface((most.W-200, most.H))
         most.rect.x+=200
-        most.image.fill(GREEN)
+        most.image.fill(RED)
         most.W-=200
         iii=True
     if fps_count_for_most%25==0 and uniz==1 and most.W!=0 and fps_count_for_most>0:
         most.image = pygame.Surface((most.W-200, most.H))
         most.rect.x+=200
-        most.image.fill(GREEN)
+        most.image.fill(RED)
         most.W-=200
-    if most.W==0:
+    if most.W==0 and mosta==0 and konez==False:
         iii=False
         fps_count_for_most=0        
-        
+        uniz=0
+        mosta=1
+    
+    if most1.rect.x<=rect.x-90 and most1.W!=0 and iii==False and uniz==0:
+        uniz=1
+        most1.image = pygame.Surface((most1.W-200,most1.H))
+        most1.rect.x+=200
+        most1.image.fill(RED)
+        most1.W-=200
+        mosta=2
+        iii=True
+    if fps_count_for_most%25==0 and uniz==1 and most1.W!=0 and fps_count_for_most>0 and mosta==2:
+        most1.image = pygame.Surface((most1.W-200, most1.H))
+        most1.rect.x+=200
+        most1.image.fill(RED)
+        most1.W-=200
+    if most1.W==0 and konez==False:
+        iii=False
+        fps_count_for_most=0        
+        uniz=0
+
                
+    if rect.x>=block37.rect.x+200:
+        konez=True
+        iii=True
+    if konez==True and fps_count_for_most==1 and iii==True:
+        all_sprites.update()
+        all_turret.update()
+        all_bullet.update()
+        fps_count_for_most=0
+    if block37.rect.x<=-600:
+        iii=False
         
         
     
@@ -459,9 +494,8 @@ while 1:
     pygame.display.update()
     shot_count+=1
     fps_count+=1
-    print(fps_count)
-    print(shot_count)
     if iii:
         fps_count_for_most+=1
+    print(fps_count_for_most)
     clock.tick(FPS)
 
