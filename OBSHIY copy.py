@@ -1,5 +1,5 @@
 import pygame
- 
+import random 
 pygame.init()
  
 W = 1500
@@ -17,7 +17,8 @@ BLACK=(0,0,0)
 
 FPS =30        # число кадров в секунду
 clock = pygame.time.Clock()
-
+hp = pygame.image.load("helth.png")
+HP = pygame.transform.scale( hp , (50,50))
 
 
 class Turret(pygame.sprite.Sprite):
@@ -62,7 +63,7 @@ class Turret(pygame.sprite.Sprite):
                 b = b*(-1)
             if xx1 < xx:
                 a = a*(-1)
-        if self.shot_count == 10:
+        if self.shot_count == 40:
             newbullet = TurretBullet(xx,yy,a,b)
             all_bullet.add(newbullet)
             self.shot_count = 0
@@ -70,7 +71,7 @@ class Turret(pygame.sprite.Sprite):
 class TurretBullet(pygame.sprite.Sprite):
     def __init__(self,X,Y,a,b):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((5, 5))
+        self.image = pygame.Surface((10, 10))
         self.image.fill(RED)
         self.rect = self.image.get_rect()
         self.rect.x=X
@@ -115,7 +116,16 @@ class NPC(pygame.sprite.Sprite):
         self.speed=speed 
         self.jump_now=jump_now
         self.jump_force=jump_force
-    
+class PulaK(pygame.sprite.Sprite):
+    def __init__(self,W,H,X,Y,speed,jump):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface((W, H))
+        self.image.fill(RED)
+        self.rect = self.image.get_rect()
+        self.rect.x=X
+        self.rect.y=Y
+        self.speed=speed
+        self.jump=jump      
 
 block1=Block(150000,10,0,830,BLUE) #11600
 
@@ -217,18 +227,19 @@ most1=Block(1000,10,6400,650,RED)
 turret1=Turret(700,H//1.5)
 
 all_npc=pygame.sprite.Group()
-npc=NPC(40,50,1200,711,1,False,10,0,0)
-npc1=NPC(40,50,1300,711,1,False,10,0,0)
-npc2=NPC(40,50,1100,711,1,False,10,0,0)
+npc=NPC(40,50,1500,781,1,False,10,0,0)
+npc1=NPC(40,50,1300,781,1,False,10,0,0)
+npc2=NPC(40,50,1100,781,1,False,10,0,0)
 all_sprites = pygame.sprite.Group()
 all_pula = pygame.sprite.Group()
 all_turret = pygame.sprite.Group()
 all_bullet = pygame.sprite.Group()
+all_k=pygame.sprite.Group()
 all_sprites.add(block1,block2,block3,block4,block5,block6,block7,block8,block9,block10,block11,block12,block13,block14,block15,block16,block17,block18,block19,block20,block21,block22,block23,block24,block25,block26,block27)
 all_sprites.add(most,most1)
 all_turret.add(turret1)
 all_sprites.add(block28,block29,block30,block31,block32,block33,block34,block35,block36,block37,block38,block39,block40,block41)
-
+all_npc.add(npc,npc1,npc2)
 
 hero = pygame.image.load('hero1.png')
 rect = hero.get_rect(centerx=W//2)
@@ -246,8 +257,10 @@ rect1=rect[0]
 moment=False                    #часть для прыжка
 jump_count=20
 jump_now=0
+MaxHealth = 70
+Health = 3
 
-speed=10
+
 
 t=0        
 u=1
@@ -263,6 +276,9 @@ fps_count_for_most=0
 iii=False
 mosta=0
 konez=False
+fps_count_for_t=0
+
+
 while 1:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -293,52 +309,45 @@ while 1:
 
     for i in all_npc:
         i.speed=10        
-        if keys[pygame.K_RIGHT]:
-           
-            hero = pygame.image.load('hero1.png')
-            polozenie=0
-            if rect.center[0]>=W//2:
-                for i in all_npc:
-                    if i.stolk==1:
-                        i.speed=20
-                    else:
+    if keys[pygame.K_RIGHT]:
+        polozenie=0
+        if rect.center[0]>=W//2:
+            for i in all_npc:
+                if i.stolk==1:
+                    i.speed=20
+                else:
                         
-                        i.speed=0
-                if konez==False:
-                    all_sprites.update(speed)
+                    i.speed=0
 
-            else:
-                rect.x+=speed
         
         if keys[pygame.K_LEFT]:
             polozenie=1
-            rect.x-=speed
-            hero = pygame.image.load('hero2.png')
+            rect.x-=10
             
             for i in all_npc:
                 i.speed=10
 
     if keys[pygame.K_RIGHT]:
         hero = pygame.image.load('hero1.png')
-        
+        polozenie=0       
         if rect.center[0]==W//2 and konez==False:
             all_sprites.update()
             all_turret.update()
             all_bullet.update()
         else:
-            rect.x+=speed
+            rect.x+=10
           
     if keys[pygame.K_LEFT]:
-        rect.x-=speed
+        polozenie=1
+        rect.x-=10
         hero = pygame.image.load('hero2.png')     
 
     if keys[pygame.K_TAB]:
         FPS=900
     
-        speed=100
     else:
         FPS=30
-        speed=10     
+            
       
     if keys[pygame.K_RIGHT]:
         polozenie = 1
@@ -384,7 +393,13 @@ while 1:
     for i in all_bullet:
         i.rect.x+=i.a
         i.rect.y+=i.b
-     
+        if i.rect.colliderect(rect):
+            i.kill()
+            Health = Health-1
+            rect.x=1
+            rect.y=1
+            if Health == 0:
+                exit() 
 
 
         
@@ -420,7 +435,60 @@ while 1:
     else:
         vesomost=0
         mozno=0
-
+    for i in all_npc:
+        for ii in all_sprites:
+            if pygame.Rect.colliderect(i.rect,ii.rect) and ii.rect.top==i.rect.bottom-1:
+                i.moment=False
+                i.jump_now=0
+                
+            
+                
+                
+            if ((i.rect.bottomleft[0]==ii.rect.topleft[0] and i.rect.bottomleft[1]==ii.rect.topleft[1]+1) or (i.rect.bottomright[0]==ii.rect.topright[0] and i.rect.bottomright[1]==ii.rect.topright[1]+1)) :
+                u1=random.randint(0,1)
+                
+                if u1==0 and i.stolk==1:
+                    i.moment=True
+                    i.jump_force=random.randint(5,15)
+                else:
+                    i.stolk=1
+                if u1==1:
+                    
+                    if i.rect.bottomleft[0]==ii.rect.topleft[0] and i.rect.bottomleft[1]==ii.rect.topleft[1]+1:
+                        i.stolk=0 
+                    if i.rect.bottomright[0]==ii.rect.topright[0] and i.rect.bottomright[1]==ii.rect.topright[1]+1:
+                        i.stolk=1
+    for i in all_npc:
+        if i.stolk==0:
+            i.rect.x+=i.speed
+        elif i.stolk==1:
+            i.rect.x-=i.speed
+    for i in all_npc:        
+        if i.moment==True:
+            if i.jump_now<=i.jump_force:
+                
+                i.rect.y-=10
+                i.jump_now+=1
+            else:
+                i.rect.y+=10
+        if pygame.Rect.colliderect(i.rect,rect):
+            Health = Health-1
+            rect.x=1
+            rect.y=1
+            if Health == 0:
+                exit()
+            
+        if i.rect.x<-40:
+            i.kill()    
+    for i in all_npc:
+        for ii in all_pula:
+            if pygame.Rect.colliderect(i.rect,ii.rect):
+                i.kill()
+                ii.kill()            
+                
+    for i in all_pula:
+        if i.rect.x<-10 or i.rect.x>1510:
+            i.kill()
 
 
 
@@ -479,7 +547,23 @@ while 1:
     if block37.rect.x<=-600:
         iii=False
         
-        
+    
+    
+    if fps_count_for_t==30 and konez==True and iii==False:
+        pula=PulaK(10,10,900,600,random.randint(10,30),random.randint(2,5))
+        all_k.add(pula)   
+    if fps_count_for_t==45 and konez==True and iii==False:
+        pula=PulaK(10,10,850,600,random.randint(10,30),random.randint(2,5))
+        all_k.add(pula)
+        fps_count_for_t=0 
+    for i in all_k:          
+        i.rect.x-=i.speed
+        if i.jump<0:
+            i.rect.y+=(i.jump**2)/2
+        else:
+            i.rect.y-=(i.jump**2)/2
+        i.jump-=1
+            
     
                
                 
@@ -490,14 +574,27 @@ while 1:
     sc.fill(WHITE)
     all_sprites.draw(sc)
     all_pula.draw(sc)
+    all_k.draw(sc)
     all_turret.draw(sc)
     all_bullet.draw(sc)
+    all_npc.draw(sc)
+    for i in range(Health):
+        car_rect = HP.get_rect(center=(50*(i+1),25))
+        sc.blit(HP, car_rect)
     sc.blit(hero, rect)
     pygame.display.update()
     shot_count+=1
     fps_count+=1
     if iii:
         fps_count_for_most+=1
-    print(fps_count_for_most)
+    if konez and iii==False:
+        fps_count_for_t+=1
+    print(konez)
+    print(iii)
+    print(fps_count_for_t)
     clock.tick(FPS)
+
+
+
+
 
