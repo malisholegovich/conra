@@ -280,6 +280,7 @@ while 1:
                 
                 polet=True
                 fps_count=0
+     
             
 
 
