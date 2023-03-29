@@ -568,7 +568,9 @@ while 1:
     if rect.y>900:
         rect.y=1
         rect.x=1           
-                
+        Health = Health-1
+        if Health == 0:
+                exit()        
                 
  
     
