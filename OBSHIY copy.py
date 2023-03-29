@@ -565,7 +565,9 @@ while 1:
         i.jump-=1
             
     
-               
+    if rect.y>900:
+        rect.y=1
+        rect.x=1           
                 
                 
  
