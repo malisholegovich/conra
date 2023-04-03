@@ -226,7 +226,7 @@ most1=Block(1000,10,6400,650,RED)
 
 # turret1=Turret(700,H//1.5)
 
-turret1=Turret(7800,710)
+# turret1=Turret(7800,710)
 
 # turret2=Turret(10200,650)
 
@@ -253,7 +253,7 @@ all_bullet = pygame.sprite.Group()
 all_k=pygame.sprite.Group()
 all_sprites.add(block1,block2,block3,block4,block5,block6,block7,block8,block9,block10,block11,block12,block13,block14,block15,block16,block17,block18,block19,block20,block21,block22,block23,block24,block25,block26,block27)
 all_sprites.add(most,most1)
-all_turret.add(turret1)
+# all_turret.add(turret1)
 all_sprites.add(block28,block29,block30,block31,block32,block33,block34,block35,block36,block37,block38,block39,block40,block41)
 all_npc.add(npc,npc1,npc2)
 
