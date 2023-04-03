@@ -220,11 +220,27 @@ block41=Block(200,10,20200,720,GREEN)
 most1=Block(1000,10,6400,650,RED)
 
 
+# 20700
 
 
 
+# turret1=Turret(700,H//1.5)
 
-turret1=Turret(700,H//1.5)
+turret1=Turret(7800,710)
+
+# turret2=Turret(10200,650)
+
+# turret3=Turret(11400,650)
+
+# turret4=Turret(12800,650)
+
+# turret5=Turret(14400,430)
+
+# turret6=Turret(17800,630)
+
+# turret7=Turret(19000,740)
+
+# turret8=Turret(19800,740)
 
 all_npc=pygame.sprite.Group()
 npc=NPC(40,50,1500,781,1,False,10,0,0)
