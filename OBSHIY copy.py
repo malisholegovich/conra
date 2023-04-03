@@ -317,7 +317,7 @@ while 1:
                     i.speed=20
                 else:
                         
-                    i.speed=0
+                    i.speed=10
 
         
         if keys[pygame.K_LEFT]:
@@ -330,7 +330,7 @@ while 1:
     if keys[pygame.K_RIGHT]:
         hero = pygame.image.load('hero1.png')
         polozenie=0       
-        if rect.center[0]==W//2 and konez==False:
+        if rect.center[0]>=W//2 and konez==False:
             all_sprites.update()
             all_turret.update()
             all_bullet.update()
