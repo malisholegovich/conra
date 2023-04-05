@@ -90,6 +90,7 @@ class Block(pygame.sprite.Sprite):
         self.rect.y=Y
         self.W=W
         self.H=H
+        self.zvet=zvet
     def update(self):
         self.rect.x-=10
 class Pula(pygame.sprite.Sprite):
@@ -293,7 +294,7 @@ iii=False
 mosta=0
 konez=False
 fps_count_for_t=0
-
+fps_count_for_spawn=0
 
 while 1:
     for event in pygame.event.get():
@@ -417,7 +418,16 @@ while 1:
             if Health == 0:
                 exit() 
 
-
+    if fps_count_for_spawn==30:
+        for i in all_sprites:
+            if i.zvet==GREEN and i.rect.x<1000 and i.rect.x>1100-i.W:
+                npc3=NPC(40,50,1100,i.rect.y-49,1,False,10,0,0)
+                all_npc.add(npc3)
+        fps_count_for_spawn=0
+                
+                
+                
+        
         
            
     
@@ -605,6 +615,7 @@ while 1:
     pygame.display.update()
     shot_count+=1
     fps_count+=1
+    fps_count_for_spawn+=1
     if iii:
         fps_count_for_most+=1
     if konez and iii==False:
