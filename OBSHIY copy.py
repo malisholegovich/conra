@@ -220,6 +220,8 @@ block41=Block(200,10,20200,720,GREEN)
 most1=Block(1000,10,6400,650,RED)
 
 
+bashna=Block(900,630,20500,150,BLUE)
+
 # 20700
 
 
@@ -242,6 +244,9 @@ most1=Block(1000,10,6400,650,RED)
 
 # turret8=Turret(19800,740)
 
+turret9=Turret(20600,250)
+
+
 all_npc=pygame.sprite.Group()
 npc=NPC(40,50,1500,781,1,False,10,0,0)
 npc1=NPC(40,50,1300,781,1,False,10,0,0)
@@ -253,8 +258,8 @@ all_bullet = pygame.sprite.Group()
 all_k=pygame.sprite.Group()
 all_sprites.add(block1,block2,block3,block4,block5,block6,block7,block8,block9,block10,block11,block12,block13,block14,block15,block16,block17,block18,block19,block20,block21,block22,block23,block24,block25,block26,block27)
 all_sprites.add(most,most1)
-# all_turret.add(turret1)
-all_sprites.add(block28,block29,block30,block31,block32,block33,block34,block35,block36,block37,block38,block39,block40,block41)
+all_turret.add(turret9)
+all_sprites.add(block28,block29,block30,block31,block32,block33,block34,block35,block36,block37,block38,block39,block40,block41,bashna)
 all_npc.add(npc,npc1,npc2)
 
 hero = pygame.image.load('hero1.png')
@@ -306,7 +311,7 @@ while 1:
                 else:
                     moment=True
             
-            if event.key==pygame.K_w and fps_count>15:
+            if event.key==pygame.K_w and fps_count>5:
                 pula=Pula(10,10,rect.center[0],rect.center[1],polozenie)
                 all_pula.add(pula)
                 
