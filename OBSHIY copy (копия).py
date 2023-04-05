@@ -418,7 +418,7 @@ while 1:
             if Health == 0:
                 exit() 
 
-    if fps_count_for_spawn==30:
+    if fps_count_for_spawn==90:
         for i in all_sprites:
             if i.zvet==GREEN and i.rect.x<1000 and i.rect.x>1100-i.W:
                 npc3=NPC(40,50,1100,i.rect.y-49,1,False,10,0,0)
